@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Good Food — Яка твоя сьогоднішня їжа?</title>
+  <title>Good Food</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
+<!-- NAVBAR -->
 <nav>
   <a class="logo" href="#">
     <span class="logo-icon">🍴</span>
@@ -19,13 +20,33 @@
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       Пошук страв
     </div>
-    <div class="nav-cart">
+    <div class="nav-cart" id="cart-icon">
       <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      <div class="cart-badge">0</div>
+      <div class="cart-badge" id="cart-badge">0</div>
     </div>
   </div>
 </nav>
 
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-header">
+    <h2>🛒 Кошик</h2>
+    <button id="cart-close">&times;</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <p class="cart-empty">🍽️ Кошик порожній</p>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-total-row">
+      <span>Разом:</span>
+      <strong id="cart-total">0 грн</strong>
+    </div>
+    <button class="cart-checkout-btn">Оформити замовлення →</button>
+  </div>
+</div>
+
+<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
     <h1>Яка твоя<br>сьогоднішня їжа?</h1>
@@ -47,38 +68,23 @@
   </div>
 </section>
 
-<!-- Featured: картки рендеряться з products.json -->
+<!-- FEATURED -->
 <section class="section">
   <div class="dishes-grid" id="featured-grid"></div>
 </section>
 
+<!-- HOW IT WORKS -->
 <section class="how-section">
   <h2 class="section-title">Як це працює</h2>
   <div class="steps-grid">
-    <div class="step">
-      <div class="step-icon">📍</div>
-      <h3>Виберіть розташування</h3>
-      <p>Оберіть місце, куди буде доставлена ваша їжа.</p>
-    </div>
-    <div class="step">
-      <div class="step-icon">📋</div>
-      <h3>Зробіть замовлення</h3>
-      <p>Переглядайте меню, щоб вибрати улюблену страву.</p>
-    </div>
-    <div class="step">
-      <div class="step-icon">💳</div>
-      <h3>Оплатіть</h3>
-      <p>Це швидко, безпечно та просто. Оберіть кілька способів оплати.</p>
-    </div>
-    <div class="step">
-      <div class="step-icon">🍽️</div>
-      <h3>Смачного вам!</h3>
-      <p>Їжу готують та доставляють прямо до вас додому.</p>
-    </div>
+    <div class="step"><div class="step-icon">📍</div><h3>Виберіть розташування</h3><p>Оберіть місце, куди буде доставлена ваша їжа.</p></div>
+    <div class="step"><div class="step-icon">📋</div><h3>Зробіть замовлення</h3><p>Переглядайте меню, щоб вибрати улюблену страву.</p></div>
+    <div class="step"><div class="step-icon">💳</div><h3>Оплатіть</h3><p>Це швидко, безпечно та просто. Оберіть кілька способів оплати.</p></div>
+    <div class="step"><div class="step-icon">🍽️</div><h3>Смачного вам!</h3><p>Їжу готують та доставляють прямо до вас додому.</p></div>
   </div>
 </section>
 
-<!-- Popular: картки рендеряться з products.json -->
+<!-- POPULAR -->
 <section class="popular-section">
   <h2 class="section-title">Популярні страви</h2>
   <div class="carousel-wrapper">
@@ -88,53 +94,34 @@
   </div>
 </section>
 
+<!-- PERKS -->
 <section class="perks-section">
   <div class="perks-banner">
-    <div class="perk">
-      <div class="perk-icon">🏷️</div>
-      <div>
-        <h3>Щодня знижки</h3>
-        <p>Отримуйте ексклюзивні пропозиції та акції щодня на улюблені страви.</p>
-      </div>
-    </div>
-    <div class="perk">
-      <div class="perk-icon">📍</div>
-      <div>
-        <h3>Відстеження у реальному часі</h3>
-        <p>Слідкуйте за своїм замовленням від ресторану до вашого порогу.</p>
-      </div>
-    </div>
-    <div class="perk">
-      <div class="perk-icon">⚡</div>
-      <div>
-        <h3>Швидка доставка</h3>
-        <p>Свіжа гаряча їжа доставляється блискавично прямо до вас.</p>
-      </div>
-    </div>
+    <div class="perk"><div class="perk-icon">🏷️</div><div><h3>Щодня знижки</h3><p>Отримуйте ексклюзивні пропозиції та акції щодня на улюблені страви.</p></div></div>
+    <div class="perk"><div class="perk-icon">📍</div><div><h3>Відстеження у реальному часі</h3><p>Слідкуйте за своїм замовленням від ресторану до вашого порогу.</p></div></div>
+    <div class="perk"><div class="perk-icon">⚡</div><div><h3>Швидка доставка</h3><p>Свіжа гаряча їжа доставляється блискавично прямо до вас.</p></div></div>
   </div>
 </section>
 
+<!-- CTA -->
 <section class="cta-section">
   <div class="cta-bg"></div>
   <div class="cta-content">
     <h2>Ви готові зробити замовлення<br>за найвигіднішими цінами?</h2>
-    <button class="cta-btn">Створити замовлення &rarr;</button>
+    <button class="cta-btn">Створити замовлення →</button>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div class="footer-col">
       <h4>Компанія</h4>
-      <a href="#">Про нас</a>
-      <a href="#">Команда</a>
-      <a href="#">Кар'єра</a>
-      <a href="#">Блог</a>
+      <a href="#">Про нас</a><a href="#">Команда</a><a href="#">Кар'єра</a><a href="#">Блог</a>
     </div>
     <div class="footer-col">
       <h4>Контакти</h4>
-      <a href="#">Допомога та підтримка</a>
-      <a href="#">Станьте нашим партнером</a>
+      <a href="#">Допомога та підтримка</a><a href="#">Станьте нашим партнером</a>
     </div>
     <div class="footer-col">
       <h4>Підписуйтесь на нас</h4>
@@ -157,73 +144,43 @@
 </footer>
 
 <script>
-  // ─── Завантаження продуктів з JSON ───
-  let cartCount = 0;
-  const badge = document.querySelector('.cart-badge');
-
-  function createFeaturedCard(p) {
-    return `
-      <div class="dish-card">
-        <img class="dish-img" src="${p.image}" alt="${p.name}" />
-        <div class="dish-info">
-          <div class="dish-meta">
-            <span class="dish-name">${p.name}</span>
-            <span class="dish-price">${p.price} грн</span>
-          </div>
-          <button class="add-btn">Додати в кошик</button>
+// Рендер карток з JSON
+function cardHTML(p, showBadge) {
+  return `
+    <div class="dish-card">
+      <img class="dish-img" src="${p.image}" alt="${p.name}" />
+      <div class="dish-info">
+        <div class="dish-meta">
+          <span class="dish-name">${p.name}</span>
+          ${showBadge ? `<span class="dish-price">${p.price} грн</span>` : ''}
         </div>
-      </div>`;
-  }
+        ${!showBadge ? `<p style="font-size:.8rem;color:var(--gray);margin-bottom:10px;font-weight:700;">${p.price} грн</p>` : ''}
+        <button class="add-btn"
+          onclick="addToCart(${p.id}, '${p.name}', ${p.price}, '${p.image}'); this.textContent='✓ Додано!'; this.style.background='var(--red-orange)'; this.style.color='white'; setTimeout(() => { this.textContent='Додати в кошик'; this.style.background=''; this.style.color=''; }, 1200)">
+          Додати в кошик
+        </button>
+      </div>
+    </div>`;
+}
 
-  function createPopularCard(p) {
-    return `
-      <div class="dish-card">
-        <img class="dish-img" src="${p.image}" alt="${p.name}" />
-        <div class="dish-info">
-          <div class="dish-meta">
-            <span class="dish-name">${p.name}</span>
-          </div>
-          <p style="font-size:.8rem;color:var(--gray);margin-bottom:10px;font-weight:700;">${p.price} грн</p>
-          <button class="add-btn">Додати в кошик</button>
-        </div>
-      </div>`;
-  }
-
-  function bindAddButtons() {
-    document.querySelectorAll('.add-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        cartCount++;
-        badge.textContent = cartCount;
-        btn.textContent = '✓ Додано!';
-        btn.style.background = 'var(--red-orange)';
-        btn.style.color = 'white';
-        setTimeout(() => {
-          btn.textContent = 'Додати в кошик';
-          btn.style.background = '';
-          btn.style.color = '';
-        }, 1500);
-      });
-    });
-  }
-
-  fetch('products.json')
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById('featured-grid').innerHTML =
-        data.featured.map(createFeaturedCard).join('');
-      document.getElementById('popular-carousel').innerHTML =
-        data.popular.map(createPopularCard).join('');
-      bindAddButtons();
-    })
-    .catch(err => console.error('Помилка завантаження products.json:', err));
-
-  // ─── Delivery tabs ───
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
+fetch('products.json')
+  .then(r => r.json())
+  .then(data => {
+    document.getElementById('featured-grid').innerHTML   = data.featured.map(p => cardHTML(p, true)).join('');
+    document.getElementById('popular-carousel').innerHTML = data.popular.map(p => cardHTML(p, false)).join('');
   });
+
+// Delivery tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
 </script>
+
+<!-- КОШИК -->
+<script src="cart.js"></script>
+
 </body>
 </html>
