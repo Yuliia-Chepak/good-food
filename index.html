@@ -10,28 +10,28 @@
 <body>
 
 <nav>
-    <a class="logo" href="#">
-        <span class="logo-icon">🍴</span>
-        <span> good <span>food </span></span>
-    </a>
-    <div class="nav-right">
-        <div class="nav-search">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+  <a class="logo" href="#">
+    <span class="logo-icon">🍴</span>
+    <span>good <span>food</span></span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-search">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       Пошук страв
     </div>
     <div class="nav-cart">
       <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      <div class="cart-badge">2</div>
-        </div>
+      <div class="cart-badge">0</div>
     </div>
+  </div>
 </nav>
 
 <section class="hero">
-    <div class="hero-content">
-        <h1>Яка твоя<br>сьогоднішня їжа?</h1>
-        <p class="hero-sub">Обирай і смакуй саме у нас!</p>
-        <div class="delivery-tabs">
-            <button class="tab-btn active">🛵 Доставка</button>
+  <div class="hero-content">
+    <h1>Яка твоя<br>сьогоднішня їжа?</h1>
+    <p class="hero-sub">Обирай і смакуй саме у нас!</p>
+    <div class="delivery-tabs">
+      <button class="tab-btn active">🛵 Доставка</button>
       <button class="tab-btn">🏃 Самовивіз</button>
     </div>
     <div class="search-bar">
@@ -43,58 +43,13 @@
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         Пошук страв
       </button>
-        </div>
     </div>
+  </div>
 </section>
 
+<!-- Featured: картки рендеряться з products.json -->
 <section class="section">
-  <div class="dishes-grid">
-
-    <div class="dish-card">
-      <img class="dish-img" src="./img/Flash Deal Card.png" alt="Паста Карбонара" />
-      <div class="dish-info">
-        <div class="dish-meta">
-          <span class="dish-name">Паста Карбонара</span>
-          <span class="dish-price">249 грн</span>
-        </div>
-        <button class="add-btn">Додати в кошик</button>
-      </div>
-    </div>
-
-    <div class="dish-card">
-      <img class="dish-img" src="./img/Flash Deal Card (1).png" alt="Піца з грибами" />
-      <div class="dish-info">
-        <div class="dish-meta">
-          <span class="dish-name">Піца з грибами</span>
-          <span class="dish-price">300 грн</span>
-        </div>
-        <button class="add-btn">Додати в кошик</button>
-      </div>
-    </div>
-
-    <div class="dish-card">
-      <img class="dish-img" src="./img/Flash Deal Card (2).png" alt="Салат Цезар" />
-      <div class="dish-info">
-        <div class="dish-meta">
-          <span class="dish-name">Салат Цезар</span>
-          <span class="dish-price">230 грн</span>
-        </div>
-        <button class="add-btn">Додати в кошик</button>
-      </div>
-    </div>
-
-    <div class="dish-card">
-      <img class="dish-img" src="./img/Flash Deal Card (3).png" alt="Борщ" />
-      <div class="dish-info">
-        <div class="dish-meta">
-          <span class="dish-name">Борщ</span>
-          <span class="dish-price">180 грн</span>
-        </div>
-        <button class="add-btn">Додати в кошик</button>
-      </div>
-    </div>
-
-  </div>
+  <div class="dishes-grid" id="featured-grid"></div>
 </section>
 
 <section class="how-section">
@@ -123,68 +78,12 @@
   </div>
 </section>
 
+<!-- Popular: картки рендеряться з products.json -->
 <section class="popular-section">
   <h2 class="section-title">Популярні страви</h2>
   <div class="carousel-wrapper">
     <button class="carousel-btn prev">&#8249;</button>
-    <div class="carousel">
-
-      <div class="dish-card">
-        <img class="dish-img" src="./img/Rectangle 336.png" alt="Чізбургер" />
-        <div class="dish-info">
-          <div class="dish-meta">
-            <span class="dish-name">Чізбургер</span>
-          </div>
-          <p style="font-size:.8rem;color:var(--gray);margin-bottom:10px;font-weight:700;">380 грн</p>
-          <button class="add-btn">Додати в кошик</button>
-        </div>
-      </div>
-
-      <div class="dish-card">
-        <img class="dish-img" src="./img/Rectangle 336 (1).png" alt="Панкейки" />
-        <div class="dish-info">
-          <div class="dish-meta">
-            <span class="dish-name">Панкейки</span>
-          </div>
-          <p style="font-size:.8rem;color:var(--gray);margin-bottom:10px;font-weight:700;">120 грн</p>
-          <button class="add-btn">Додати в кошик</button>
-        </div>
-      </div>
-
-      <div class="dish-card">
-        <img class="dish-img" src="./img/Rectangle 336 (2).png" alt="Бельгійські Вафлі" />
-        <div class="dish-info">
-          <div class="dish-meta">
-            <span class="dish-name">Бельгійські Вафлі</span>
-          </div>
-          <p style="font-size:.8rem;color:var(--gray);margin-bottom:10px;font-weight:700;">380 грн</p>
-          <button class="add-btn">Додати в кошик</button>
-        </div>
-      </div>
-
-      <div class="dish-card">
-        <img class="dish-img" src="./img/Rectangle 336 (3).png" alt="Смажений Сендвіч" />
-        <div class="dish-info">
-          <div class="dish-meta">
-            <span class="dish-name">Смажений Сендвіч</span>
-          </div>
-          <p style="font-size:.8rem;color:var(--gray);margin-bottom:10px;font-weight:700;">80 грн</p>
-          <button class="add-btn">Додати в кошик</button>
-        </div>
-      </div>
-
-      <div class="dish-card">
-        <img class="dish-img" src="./img/Rectangle 336 (4).png" alt="Крем-суп" />
-        <div class="dish-info">
-          <div class="dish-meta">
-            <span class="dish-name">Крем-суп</span>
-          </div>
-          <p style="font-size:.8rem;color:var(--gray);margin-bottom:10px;font-weight:700;">170 грн</p>
-          <button class="add-btn">Додати в кошик</button>
-        </div>
-      </div>
-
-    </div>
+    <div class="carousel" id="popular-carousel"></div>
     <button class="carousel-btn next">&#8250;</button>
   </div>
 </section>
@@ -258,29 +157,71 @@
 </footer>
 
 <script>
-  // Delivery tabs
+  // ─── Завантаження продуктів з JSON ───
+  let cartCount = 0;
+  const badge = document.querySelector('.cart-badge');
+
+  function createFeaturedCard(p) {
+    return `
+      <div class="dish-card">
+        <img class="dish-img" src="${p.image}" alt="${p.name}" />
+        <div class="dish-info">
+          <div class="dish-meta">
+            <span class="dish-name">${p.name}</span>
+            <span class="dish-price">${p.price} грн</span>
+          </div>
+          <button class="add-btn">Додати в кошик</button>
+        </div>
+      </div>`;
+  }
+
+  function createPopularCard(p) {
+    return `
+      <div class="dish-card">
+        <img class="dish-img" src="${p.image}" alt="${p.name}" />
+        <div class="dish-info">
+          <div class="dish-meta">
+            <span class="dish-name">${p.name}</span>
+          </div>
+          <p style="font-size:.8rem;color:var(--gray);margin-bottom:10px;font-weight:700;">${p.price} грн</p>
+          <button class="add-btn">Додати в кошик</button>
+        </div>
+      </div>`;
+  }
+
+  function bindAddButtons() {
+    document.querySelectorAll('.add-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        cartCount++;
+        badge.textContent = cartCount;
+        btn.textContent = '✓ Додано!';
+        btn.style.background = 'var(--red-orange)';
+        btn.style.color = 'white';
+        setTimeout(() => {
+          btn.textContent = 'Додати в кошик';
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 1500);
+      });
+    });
+  }
+
+  fetch('products.json')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('featured-grid').innerHTML =
+        data.featured.map(createFeaturedCard).join('');
+      document.getElementById('popular-carousel').innerHTML =
+        data.popular.map(createPopularCard).join('');
+      bindAddButtons();
+    })
+    .catch(err => console.error('Помилка завантаження products.json:', err));
+
+  // ─── Delivery tabs ───
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-    });
-  });
-
-  // Cart counter
-  let count = 2;
-  const badge = document.querySelector('.cart-badge');
-  document.querySelectorAll('.add-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      count++;
-      badge.textContent = count;
-      btn.textContent = '✓ Додано!';
-      btn.style.background = 'var(--red-orange)';
-      btn.style.color = 'white';
-      setTimeout(() => {
-        btn.textContent = 'Додати в кошик';
-        btn.style.background = '';
-        btn.style.color = '';
-      }, 1500);
     });
   });
 </script>

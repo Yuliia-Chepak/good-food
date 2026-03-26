@@ -1,0 +1,15 @@
+{
+  "featured": [
+    { "id": 1, "name": "Паста Карбонара", "price": 249, "image": "./img/Flash Deal Card.png" },
+    { "id": 2, "name": "Піца з грибами",  "price": 300, "image": "./img/Flash Deal Card (1).png" },
+    { "id": 3, "name": "Салат Цезар",     "price": 230, "image": "./img/Flash Deal Card (2).png" },
+    { "id": 4, "name": "Борщ",            "price": 180, "image": "./img/Flash Deal Card (3).png" }
+  ],
+  "popular": [
+    { "id": 5, "name": "Чізбургер",         "price": 380, "image": "./img/Rectangle 336.png" },
+    { "id": 6, "name": "Панкейки",          "price": 120, "image": "./img/Rectangle 336 (1).png" },
+    { "id": 7, "name": "Бельгійські Вафлі", "price": 380, "image": "./img/Rectangle 336 (2).png" },
+    { "id": 8, "name": "Смажений Сендвіч",  "price": 80,  "image": "./img/Rectangle 336 (3).png" },
+    { "id": 9, "name": "Крем-суп",          "price": 170, "image": "./img/Rectangle 336 (4).png" }
+  ]
+}
