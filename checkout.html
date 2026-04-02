@@ -383,3 +383,202 @@
     </div>
   </div>
 </nav>
+
+<div class="checkout-page">
+    <a class="checkout-back" href="index.html">← Повернутись до меню</a>
+    <h1 class="checkout-title">Оформлення замовлення</h1>
+    <div class="checkout-grid">
+        <div>
+
+            <div class="checkout-card" style="margin-bottom: 20px;">
+                <h3>🛵 Спосіб отримання</h3>
+                <div class="delivery-toggle">
+                    <label class="delivery-option active" id="opt-delivery">
+                        <input type="radio" name="delivery" value="delivery" checked />
+                        Доставка
+                    </label>
+                    <label class="delivery-option">
+                        <input type="radio" name="delivery" value="pickup" />
+                        Самовивіз
+                    </label>
+        </div>
+</div>
+
+            <div class="checkout-card" style="margin-bottom: 20px;">
+                <h3>👤 Контактні дані</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Ім'я</label>
+                        <input type="text" id="field-name" placeholder="Ваше ім'я" />
+                    </div>
+                    <div class="form-group">
+                        <label>Прізвище</label>
+                        <input type="text" id="field-surname" placeholder="Ваше прізвище" />
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="tel" id="field-phone" placeholder="+380 99 123 45 67" />
+                    </div>
+                    <div class="form-group">
+                        <label>Електронна пошта</label>
+                        <input type="email" id="field-email" placeholder="Ваша електронна пошта" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkout-card" id="address-card" style="margin-bottom: 20px;">
+                <h3>📍 Адреса доставки</h3>
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label>Вулиця та номер будинку</label>
+                        <input type="text" id="field-street" placeholder="Ваша вулиця, номер будинку" />
+                    </div>
+                    <div class="form-group">
+                        <label>Місто</label>
+                        <input type="text" id="field-city" placeholder="Ваше місто" />
+                    </div>
+                    <div class="form-group">
+                        <label>Номер квартири</label>
+                        <input type="text" id="field-apartment" placeholder="Номер квартири" />
+                    </div>
+                    <div class="form-group full">
+                        <label>Коментар до замовлення</label>
+                        <textarea id="field-comment" placeholder="Додаткові інструкції для доставки"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkout-card">
+          <h3>💳 Спосіб оплати</h3>
+          <div class="payment-options">
+            <label class="payment-option active" id="pay-cash">
+              <input type="radio" name="payment" value="cash" checked />
+              <span class="payment-icon">💵</span> Готівка при отриманні
+            </label>
+            <label class="payment-option" id="pay-card">
+              <input type="radio" name="payment" value="card" />
+              <span class="payment-icon">💳</span> Картка при отриманні
+            </label>
+            <label class="payment-option" id="pay-online">
+              <input type="radio" name="payment" value="online" />
+              <span class="payment-icon">📱</span> Онлайн оплата
+            </label>
+          </div>
+        </div>
+        </div>
+
+            <div class="order-summary">
+                <h3>🛒 Ваше замовлення</h3>
+                <div class="summary-items" id="summary-items">
+                    <div class="summary-empty">Ваш кошик порожній</div>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row">
+                    <span>Сума товарів</span>
+                    <span id="subtotal">0 грн</span>
+                </div>
+                <div class="summary-row">
+                    <span>Доставка:</span>
+                    <span id="delivery-fee">0 грн</span>
+                </div>
+                <div class="summary-total">
+                    <span>Загальна сума:</span>
+                    <span id="total">0 грн</span>
+                </div>
+                <button class="place-order-btn" id="place-order-btn" onclick="placeOrder()">Підтвердити замовлення</button>
+            </div>
+    </div>
+</div>
+
+
+<div class="success-screen" id="success-screen">
+    <div class="success-icon">✓</div>
+    <h2>Дякуємо за замовлення!</h2>
+    <p>Ваше замовлення успішно оформлено і вже готується. Очікуйте на дзвінок від нашого кур'єра для підтвердження деталей доставки.</p>
+    <a href="index.html" class="success-back-btn">Повернутись до меню</a>
+</div>
+</div>
+<script>
+  const DELIVERY_FEE = 49;
+ 
+  let cart = [];
+  try {
+    const saved = localStorage.getItem('gf_cart');
+    if (saved) cart = JSON.parse(saved);
+  } catch(e) {}
+ 
+  if (cart.length === 0) {
+    cart = [
+      { id: 1, name: 'Паста Карбонара', price: 249, qty: 1, image: './img/Flash Deal Card.png' },
+      { id: 5, name: 'Чізбургер',       price: 380, qty: 2, image: './img/Rectangle 336.png'   }
+    ];
+  }
+ 
+  // ── Рендер підсумку ──
+  function renderSummary() {
+    const list = document.getElementById('summary-items');
+    if (cart.length === 0) {
+      list.innerHTML = '<p class="summary-empty">Кошик порожній</p>';
+      document.getElementById('place-order-btn').disabled = true;
+    } else {
+      list.innerHTML = cart.map(i => `
+        <div class="summary-item">
+          <img src="${i.image}" alt="${i.name}" onerror="this.style.display='none'" />
+          <div class="summary-item-info">
+            <span class="summary-item-name">${i.name}</span>
+            <span class="summary-item-qty">${i.qty} шт × ${i.price} грн</span>
+          </div>
+          <span class="summary-item-price">${i.price * i.qty} грн</span>
+        </div>`).join('');
+    }
+ 
+    const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const isPickup = document.querySelector('input[name="delivery"]:checked')?.value === 'pickup';
+    const delivery = isPickup ? 0 : DELIVERY_FEE;
+ 
+    document.getElementById('subtotal').textContent     = subtotal + ' грн';
+    document.getElementById('delivery-cost').textContent = isPickup ? 'Безкоштовно' : delivery + ' грн';
+    document.getElementById('total-price').textContent  = (subtotal + delivery) + ' грн';
+    document.getElementById('cart-count').textContent   = cart.reduce((s, i) => s + i.qty, 0);
+  }
+ 
+  // ── Delivery toggle ──
+  document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('.delivery-option').forEach(el => el.classList.remove('active'));
+      radio.closest('.delivery-option').classList.add('active');
+      const isPickup = radio.value === 'pickup';
+      document.getElementById('address-card').style.display = isPickup ? 'none' : 'block';
+      renderSummary();
+    });
+  });
+ 
+  // ── Payment toggle ──
+  document.querySelectorAll('input[name="payment"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
+      radio.closest('.payment-option').classList.add('active');
+    });
+  });
+ 
+  // ── Оформити замовлення ──
+  function placeOrder() {
+    const name  = document.getElementById('field-name').value.trim();
+    const phone = document.getElementById('field-phone').value.trim();
+    const isPickup = document.querySelector('input[name="delivery"]:checked')?.value === 'pickup';
+    const street = document.getElementById('field-street').value.trim();
+ 
+    if (!name)  { alert('Введіть своє ім\'я'); return; }
+    if (!phone) { alert('Введіть номер телефону'); return; }
+    if (!isPickup && !street) { alert('Введіть адресу доставки'); return; }
+ 
+    // Успіх
+    document.getElementById('checkout-form-section').style.display = 'none';
+    document.getElementById('success-screen').classList.add('show');
+    localStorage.removeItem('gf_cart');
+  }
+ 
+  renderSummary();
+</script>
+</body>
+</html>
