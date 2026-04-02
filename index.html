@@ -59,7 +59,7 @@
       <span>Разом:</span>
       <strong id="cart-total-price">0 грн</strong>
     </div>
-    <button class="cart-checkout-btn">Оформити замовлення →</button>
+    <button class="cart-checkout-btn" onclick="goToCheckout()">Оформити замовлення →</button>
   </div>
 </div>
 
@@ -309,6 +309,11 @@
       document.getElementById('featured-grid').innerHTML    = data.featured.map(p => cardHTML(p, true)).join('');
       document.getElementById('popular-carousel').innerHTML = data.popular.map(p => cardHTML(p, false)).join('');
     });
+
+  function goToCheckout() {
+    localStorage.setItem("gf_cart", JSON.stringify(cart));
+    window.location.href = "checkout.html";
+  }
 
   // Delivery tabs
   document.querySelectorAll('.tab-btn').forEach(btn => {
