@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Good Food</title>
+  <title>Good Food — Яка твоя сьогоднішня їжа?</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -16,7 +16,7 @@
     <span>good <span>food</span></span>
   </a>
   <div class="nav-right">
-    <div class="nav-search">
+    <div class="nav-search" id="nav-search-btn">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       Пошук страв
     </div>
@@ -27,20 +27,37 @@
   </div>
 </nav>
 
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="search-overlay">
+  <div class="search-overlay-inner">
+    <button class="search-close" id="search-close">&times;</button>
+    <h2 class="search-overlay-title">Пошук страв</h2>
+    <div class="search-overlay-bar">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="search-input" placeholder="Введіть назву страви..." autocomplete="off" />
+    </div>
+    <div class="search-results" id="search-results"></div>
+  </div>
+</div>
+
 <!-- CART DRAWER -->
 <div class="cart-overlay" id="cart-overlay"></div>
 <div class="cart-drawer" id="cart-drawer">
   <div class="cart-header">
     <h2>🛒 Кошик</h2>
-    <button id="cart-close">&times;</button>
+    <button class="cart-drawer-close" id="cart-drawer-close">&times;</button>
   </div>
   <div class="cart-items" id="cart-items">
-    <p class="cart-empty">🍽️ Кошик порожній</p>
+    <div class="cart-empty">
+      <span>🍽️</span>
+      <p>Кошик порожній</p>
+      <small>Додайте щось смачне!</small>
+    </div>
   </div>
   <div class="cart-footer" id="cart-footer" style="display:none">
-    <div class="cart-total-row">
+    <div class="cart-total">
       <span>Разом:</span>
-      <strong id="cart-total">0 грн</strong>
+      <strong id="cart-total-price">0 грн</strong>
     </div>
     <button class="cart-checkout-btn">Оформити замовлення →</button>
   </div>
@@ -59,8 +76,8 @@
       <div class="location-icon">
         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
       </div>
-      <input type="text" placeholder="Введіть свою адресу" />
-      <button class="search-btn">
+      <input type="text" id="hero-search-input" placeholder="Введіть свою адресу або назву страви..." autocomplete="off" />
+      <button class="search-btn" id="hero-search-btn">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         Пошук страв
       </button>
@@ -144,43 +161,162 @@
 </footer>
 
 <script>
-// Рендер карток з JSON
-function cardHTML(p, showBadge) {
-  return `
-    <div class="dish-card">
-      <img class="dish-img" src="${p.image}" alt="${p.name}" />
-      <div class="dish-info">
-        <div class="dish-meta">
-          <span class="dish-name">${p.name}</span>
-          ${showBadge ? `<span class="dish-price">${p.price} грн</span>` : ''}
+  // ══════════════════════════════
+  //  ДАНІ
+  // ══════════════════════════════
+  let allProducts = [];
+  let cart = [];
+
+  // ══════════════════════════════
+  //  КОШИК
+  // ══════════════════════════════
+  function addToCart(id) {
+    const item = cart.find(i => i.id === id);
+    item ? item.qty++ : cart.push({ id, qty: 1 });
+    updateBadge();
+    renderCart();
+  }
+
+  function changeQty(id, delta) {
+    const item = cart.find(i => i.id === id);
+    item.qty += delta;
+    if (item.qty <= 0) cart.splice(cart.indexOf(item), 1);
+    updateBadge();
+    renderCart();
+  }
+
+  function updateBadge() {
+    document.getElementById('cart-badge').textContent =
+      cart.reduce((s, i) => s + i.qty, 0);
+  }
+
+  function renderCart() {
+    const list   = document.getElementById('cart-items');
+    const footer = document.getElementById('cart-footer');
+
+    if (cart.length === 0) {
+      list.innerHTML = `<div class="cart-empty"><span>🍽️</span><p>Кошик порожній</p><small>Додайте щось смачне!</small></div>`;
+      footer.style.display = 'none';
+      return;
+    }
+
+    list.innerHTML = cart.map(i => {
+      const p = allProducts.find(p => p.id === i.id);
+      return `
+        <div class="cart-item">
+          <img src="${p.image}" alt="${p.name}" />
+          <div class="cart-item-info">
+            <span class="cart-item-name">${p.name}</span>
+            <span class="cart-item-price">${p.price} грн</span>
+          </div>
+          <div class="cart-item-controls">
+            <button class="qty-btn" onclick="changeQty(${i.id}, -1)">−</button>
+            <span class="qty-value">${i.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${i.id}, +1)">+</button>
+          </div>
+        </div>`;
+    }).join('');
+
+    const total = cart.reduce((s, i) => s + allProducts.find(p => p.id === i.id).price * i.qty, 0);
+    document.getElementById('cart-total-price').textContent = total + ' грн';
+    footer.style.display = 'block';
+  }
+
+  // відкрити / закрити кошик
+  document.getElementById('cart-icon').onclick        = () => document.getElementById('cart-drawer').classList.add('open');
+  document.getElementById('cart-drawer-close').onclick = () => document.getElementById('cart-drawer').classList.remove('open');
+  document.getElementById('cart-overlay').onclick      = () => document.getElementById('cart-drawer').classList.remove('open');
+
+  // ══════════════════════════════
+  //  ПОШУК
+  // ══════════════════════════════
+  function openSearch() {
+    document.getElementById('search-overlay').classList.add('open');
+    setTimeout(() => document.getElementById('search-input').focus(), 100);
+  }
+
+  function closeSearch() {
+    document.getElementById('search-overlay').classList.remove('open');
+    document.getElementById('search-input').value = '';
+    document.getElementById('search-results').innerHTML = '';
+  }
+
+  function doSearch(query) {
+    const q = query.trim().toLowerCase();
+    const el = document.getElementById('search-results');
+    if (!q) { el.innerHTML = ''; return; }
+
+    const found = allProducts.filter(p => p.name.toLowerCase().includes(q));
+
+    el.innerHTML = found.length === 0
+      ? `<div class="search-no-results">😔 Нічого не знайдено за запитом «${query}»</div>`
+      : found.map(p => `
+          <div class="search-result-item">
+            <img src="${p.image}" alt="${p.name}" />
+            <div class="search-result-info">
+              <span class="search-result-name">${p.name}</span>
+              <span class="search-result-price">${p.price} грн</span>
+            </div>
+            <button class="search-add-btn" onclick="addToCart(${p.id}); this.textContent='✓ Додано!'; this.style.background='var(--red-orange)'; this.style.color='white'; setTimeout(() => { this.textContent='+ До кошика'; this.style.background=''; this.style.color=''; }, 1200)">
+              + До кошика
+            </button>
+          </div>`).join('');
+  }
+
+  document.getElementById('nav-search-btn').onclick  = openSearch;
+  document.getElementById('search-close').onclick    = closeSearch;
+  document.getElementById('search-overlay').onclick  = e => { if (e.target === document.getElementById('search-overlay')) closeSearch(); };
+  document.getElementById('search-input').oninput    = e => doSearch(e.target.value);
+
+  document.getElementById('hero-search-btn').onclick = () => {
+    const val = document.getElementById('hero-search-input').value;
+    openSearch();
+    setTimeout(() => { document.getElementById('search-input').value = val; doSearch(val); }, 150);
+  };
+  document.getElementById('hero-search-input').onkeydown = e => {
+    if (e.key === 'Enter') document.getElementById('hero-search-btn').click();
+  };
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeSearch(); document.getElementById('cart-drawer').classList.remove('open'); }
+  });
+
+  // ══════════════════════════════
+  //  РЕНДЕР КАРТОК
+  // ══════════════════════════════
+  function cardHTML(p, showBadge) {
+    return `
+      <div class="dish-card">
+        <img class="dish-img" src="${p.image}" alt="${p.name}" />
+        <div class="dish-info">
+          <div class="dish-meta">
+            <span class="dish-name">${p.name}</span>
+            ${showBadge ? `<span class="dish-price">${p.price} грн</span>` : ''}
+          </div>
+          ${!showBadge ? `<p style="font-size:.8rem;color:var(--gray);margin-bottom:10px;font-weight:700;">${p.price} грн</p>` : ''}
+          <button class="add-btn"
+            onclick="addToCart(${p.id}); this.textContent='✓ Додано!'; this.style.background='var(--red-orange)'; this.style.color='white'; setTimeout(() => { this.textContent='Додати в кошик'; this.style.background=''; this.style.color=''; }, 1200)">
+            Додати в кошик
+          </button>
         </div>
-        ${!showBadge ? `<p style="font-size:.8rem;color:var(--gray);margin-bottom:10px;font-weight:700;">${p.price} грн</p>` : ''}
-        <button class="add-btn"
-          onclick="addToCart(${p.id}, '${p.name}', ${p.price}, '${p.image}'); this.textContent='✓ Додано!'; this.style.background='var(--red-orange)'; this.style.color='white'; setTimeout(() => { this.textContent='Додати в кошик'; this.style.background=''; this.style.color=''; }, 1200)">
-          Додати в кошик
-        </button>
-      </div>
-    </div>`;
-}
+      </div>`;
+  }
 
-fetch('products.json')
-  .then(r => r.json())
-  .then(data => {
-    document.getElementById('featured-grid').innerHTML   = data.featured.map(p => cardHTML(p, true)).join('');
-    document.getElementById('popular-carousel').innerHTML = data.popular.map(p => cardHTML(p, false)).join('');
-  });
+  fetch('products.json')
+    .then(r => r.json())
+    .then(data => {
+      allProducts = [...data.featured, ...data.popular];
+      document.getElementById('featured-grid').innerHTML    = data.featured.map(p => cardHTML(p, true)).join('');
+      document.getElementById('popular-carousel').innerHTML = data.popular.map(p => cardHTML(p, false)).join('');
+    });
 
-// Delivery tabs
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+  // Delivery tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
   });
-});
 </script>
-
-<!-- КОШИК -->
-<script src="cart.js"></script>
-
 </body>
 </html>
